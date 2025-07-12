@@ -1,0 +1,54 @@
+---
+import Card from '../atoms/Card.astro';
+import Button from '../atoms/Button.astro';
+import Badge from '../atoms/Badge.astro';
+
+interface Props {
+  insurance: {
+    id: number;
+    nombre: string;
+    descripcion: string;
+    precio_base: number;
+    activo: boolean;
+  };
+}
+
+const { insurance } = Astro.props;
+---
+
+<Card class="h-full flex flex-col">
+  <div class="flex-1">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-semibold text-gray-900">{insurance.nombre}</h3>
+      <Badge variant={insurance.activo ? 'success' : 'error'}>
+        {insurance.activo ? 'Activo' : 'Inactivo'}
+      </Badge>
+    </div>
+    
+    <p class="text-gray-600 mb-4">{insurance.descripcion}</p>
+    
+    <div class="mb-6">
+      <span class="text-2xl font-bold text-primary-600">
+        ${insurance.precio_base.toLocaleString()}
+      </span>
+      <span class="text-gray-500 ml-1">/ mes</span>
+    </div>
+  </div>
+  
+  <div class="flex space-x-3">
+    <Button 
+      variant="primary" 
+      class="flex-1"
+      onclick={`window.location.href='/cotizar?seguro=${insurance.id}'`}
+    >
+      Cotizar
+    </Button>
+    <Button 
+      variant="outline" 
+      class="flex-1"
+      onclick={`window.location.href='/seguros/${insurance.id}'`}
+    >
+      Ver Detalles
+    </Button>
+  </div>
+</Card>

@@ -1,0 +1,82 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import QuoteForm from '../components/organisms/QuoteForm.astro';
+---
+
+<MainLayout title="Cotizar - SecureLife">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">
+        Solicita tu Cotización
+      </h1>
+      <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+        Completa el formulario y recibe una cotización personalizada sin compromiso. Nuestros expertos te contactarán en menos de 24 horas.
+      </p>
+    </div>
+
+    <!-- Process Steps -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">¿Cómo funciona?</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="flex items-start space-x-3">
+          <div class="flex-shrink-0 h-8 w-8 bg-primary-600 rounded-full flex items-center justify-center">
+            <span class="text-white font-semibold text-sm">1</span>
+          </div>
+          <div>
+            <h3 class="font-medium text-gray-900">Completa el formulario</h3>
+            <p class="text-sm text-gray-600">Proporciona tus datos y selecciona el tipo de seguro</p>
+          </div>
+        </div>
+        
+        <div class="flex items-start space-x-3">
+          <div class="flex-shrink-0 h-8 w-8 bg-primary-600 rounded-full flex items-center justify-center">
+            <span class="text-white font-semibold text-sm">2</span>
+          </div>
+          <div>
+            <h3 class="font-medium text-gray-900">Análisis personalizado</h3>
+            <p class="text-sm text-gray-600">Nuestros expertos analizan tu perfil y necesidades</p>
+          </div>
+        </div>
+        
+        <div class="flex items-start space-x-3">
+          <div class="flex-shrink-0 h-8 w-8 bg-primary-600 rounded-full flex items-center justify-center">
+            <span class="text-white font-semibold text-sm">3</span>
+          </div>
+          <div>
+            <h3 class="font-medium text-gray-900">Recibe tu cotización</h3>
+            <p class="text-sm text-gray-600">Te contactamos con la mejor propuesta para ti</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quote Form -->
+    <QuoteForm />
+
+    <!-- Info Section -->
+    <div class="mt-12 bg-blue-50 rounded-lg p-6">
+      <div class="flex items-start space-x-3">
+        <div class="flex-shrink-0">
+          <svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <div>
+          <h3 class="font-medium text-blue-900 mb-2">¿Necesitas ayuda?</h3>
+          <p class="text-blue-800 text-sm mb-3">
+            Si tienes dudas sobre qué tipo de seguro necesitas o requieres asistencia para completar el formulario, no dudes en contactarnos.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-3">
+            <a href="tel:+573001234567" class="text-blue-700 hover:text-blue-800 font-medium text-sm">
+              📞 +57 300 123 4567
+            </a>
+            <a href="mailto:info@securelife.com" class="text-blue-700 hover:text-blue-800 font-medium text-sm">
+              ✉️ info@securelife.com
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</MainLayout>

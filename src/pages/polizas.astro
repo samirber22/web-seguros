@@ -1,0 +1,183 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Card from '../components/atoms/Card.astro';
+import Button from '../components/atoms/Button.astro';
+import Badge from '../components/atoms/Badge.astro';
+
+// TODO: Obtener pólizas del usuario desde Supabase
+const policies = [
+  {
+    id: 1,
+    nombre: 'Seguro de Vida Premium',
+    numero_poliza: 'SV-2024-001',
+    fecha_inicio: '2024-01-15',
+    fecha_fin: '2025-01-15',
+    estado: 'Activa',
+    monto_cobertura: 50000000,
+    prima_mensual: 45000,
+    proximo_pago: '2024-02-15'
+  },
+  {
+    id: 2,
+    nombre: 'Seguro de Auto Completo',
+    numero_poliza: 'SA-2024-002',
+    fecha_inicio: '2024-03-01',
+    fecha_fin: '2025-03-01',
+    estado: 'Activa',
+    monto_cobertura: 25000000,
+    prima_mensual: 85000,
+    proximo_pago: '2024-04-01'
+  },
+  {
+    id: 3,
+    nombre: 'Seguro de Hogar Integral',
+    numero_poliza: 'SH-2023-003',
+    fecha_inicio: '2023-06-01',
+    fecha_fin: '2024-06-01',
+    estado: 'Vence Pronto',
+    monto_cobertura: 35000000,
+    prima_mensual: 65000,
+    proximo_pago: '2024-05-01'
+  }
+];
+---
+
+<MainLayout title="Mis Pólizas - SecureLife">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-8">
+      <div>
+        <h1 class="text-3xl font-bold text-gray-900">Mis Pólizas</h1>
+        <p class="text-gray-600 mt-2">Administra y consulta el estado de tus pólizas</p>
+      </div>
+      <Button onclick="window.location.href='/cotizar'">
+        Nueva Cotización
+      </Button>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+      <Card>
+        <div class="text-center">
+          <div class="text-2xl font-bold text-gray-900">3</div>
+          <div class="text-sm text-gray-500">Pólizas Activas</div>
+        </div>
+      </Card>
+      
+      <Card>
+        <div class="text-center">
+          <div class="text-2xl font-bold text-green-600">$110,000,000</div>
+          <div class="text-sm text-gray-500">Cobertura Total</div>
+        </div>
+      </Card>
+      
+      <Card>
+        <div class="text-center">
+          <div class="text-2xl font-bold text-blue-600">$195,000</div>
+          <div class="text-sm text-gray-500">Prima Mensual</div>
+        </div>
+      </Card>
+      
+      <Card>
+        <div class="text-center">
+          <div class="text-2xl font-bold text-yellow-600">1</div>
+          <div class="text-sm text-gray-500">Vence Pronto</div>
+        </div>
+      </Card>
+    </div>
+
+    <!-- Policies List -->
+    <div class="space-y-6">
+      {policies.map((policy) => (
+        <Card class="p-6">
+          <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+            <div class="flex-1">
+              <div class="flex items-center space-x-3 mb-2">
+                <h3 class="text-lg font-semibold text-gray-900">{policy.nombre}</h3>
+                <Badge variant={
+                  policy.estado === 'Activa' ? 'success' : 
+                  policy.estado === 'Vence Pronto' ? 'warning' : 'error'
+                }>
+                  {policy.estado}
+                </Badge>
+              </div>
+              
+              <p class="text-gray-600 mb-4">Póliza #{policy.numero_poliza}</p>
+              
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                <div>
+                  <span class="font-medium text-gray-900">Vigencia:</span>
+                  <p class="text-gray-600">
+                    {new Date(policy.fecha_inicio).toLocaleDateString()} - 
+                    {new Date(policy.fecha_fin).toLocaleDateString()}
+                  </p>
+                </div>
+                
+                <div>
+                  <span class="font-medium text-gray-900">Cobertura:</span>
+                  <p class="text-gray-600">
+                    ${policy.monto_cobertura.toLocaleString()}
+                  </p>
+                </div>
+                
+                <div>
+                  <span class="font-medium text-gray-900">Prima Mensual:</span>
+                  <p class="text-gray-600">
+                    ${policy.prima_mensual.toLocaleString()}
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="mt-4 lg:mt-0 lg:ml-6 flex flex-col sm:flex-row lg:flex-col gap-2">
+              <Button variant="primary" size="sm" class="w-full sm:w-auto">
+                Ver Detalles
+              </Button>
+              <Button variant="outline" size="sm" class="w-full sm:w-auto">
+                Descargar Póliza
+              </Button>
+              {policy.estado === 'Vence Pronto' && (
+                <Button variant="secondary" size="sm" class="w-full sm:w-auto">
+                  Renovar
+                </Button>
+              )}
+            </div>
+          </div>
+          
+          {policy.estado === 'Vence Pronto' && (
+            <div class="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-md">
+              <div class="flex items-start space-x-2">
+                <svg class="h-5 w-5 text-yellow-600 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.664-.833-2.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+                </svg>
+                <div>
+                  <h4 class="font-medium text-yellow-800">Renovación Pendiente</h4>
+                  <p class="text-sm text-yellow-700">
+                    Tu póliza vence el {new Date(policy.fecha_fin).toLocaleDateString()}. 
+                    Renueva ahora para mantener tu cobertura sin interrupciones.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+        </Card>
+      ))}
+    </div>
+
+    <!-- Empty State (if no policies) -->
+    {policies.length === 0 && (
+      <Card class="text-center py-12">
+        <div class="mx-auto h-16 w-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+          <svg class="h-8 w-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+        </div>
+        <h3 class="text-lg font-medium text-gray-900 mb-2">No tienes pólizas activas</h3>
+        <p class="text-gray-600 mb-6">Comienza protegiendo lo que más valoras con nuestros seguros</p>
+        <Button onclick="window.location.href='/seguros'">
+          Explorar Seguros
+        </Button>
+      </Card>
+    )}
+  </div>
+</MainLayout>

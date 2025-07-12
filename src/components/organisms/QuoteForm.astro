@@ -1,0 +1,157 @@
+---
+import Card from '../atoms/Card.astro';
+import Input from '../atoms/Input.astro';
+import Button from '../atoms/Button.astro';
+---
+
+<Card>
+  <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-6">Solicitar Cotización</h2>
+  
+  <form id="quote-form" class="space-y-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <Input
+        type="text"
+        name="nombre"
+        label="Nombre completo"
+        placeholder="Ingresa tu nombre completo"
+        required
+      />
+      
+      <Input
+        type="email"
+        name="email"
+        label="Correo electrónico"
+        placeholder="tu@email.com"
+        required
+      />
+      
+      <Input
+        type="tel"
+        name="telefono"
+        label="Teléfono"
+        placeholder="+57 300 000 0000"
+        required
+      />
+      
+      <Input
+        type="text"
+        name="direccion"
+        label="Dirección"
+        placeholder="Ingresa tu dirección"
+      />
+    </div>
+    
+    <div>
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+        Tipo de Seguro
+      </label>
+      <select 
+        name="seguro_id" 
+        required
+        class="block w-full rounded-xl border-gray-300 dark:border-dark-600 dark:bg-dark-700 dark:text-white shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
+      >
+        <option value="">Selecciona un tipo de seguro</option>
+        <!-- Las opciones se cargarán dinámicamente -->
+      </select>
+    </div>
+    
+    <Input
+      type="textarea"
+      name="detalles"
+      label="Detalles adicionales"
+      placeholder="Cuéntanos más sobre tus necesidades..."
+      rows={4}
+    />
+    
+    <div class="flex items-center">
+      <input
+        id="terms"
+        name="terms"
+        type="checkbox"
+        required
+        class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+      />
+      <label for="terms" class="ml-2 block text-sm text-gray-900 dark:text-gray-300">
+        Acepto los <a href="/terminos" class="text-primary-600 hover:text-primary-500">términos y condiciones</a>
+      </label>
+    </div>
+    
+    <Button type="submit" class="w-full">
+      Solicitar Cotización
+    </Button>
+  </form>
+</Card>
+
+<script>
+  import { SegurosService } from '../../services/seguros.service';
+  import { CotizacionesService } from '../../services/cotizaciones.service';
+  import { userProfile } from '../../stores/auth';
+
+  // Cargar seguros disponibles
+  async function loadSeguros() {
+    try {
+      const seguros = await SegurosService.getAllSeguros();
+      const select = document.querySelector('select[name="seguro_id"]') as HTMLSelectElement;
+      
+      if (select) {
+        // Limpiar opciones existentes (excepto la primera)
+        while (select.children.length > 1) {
+          select.removeChild(select.lastChild!);
+        }
+        
+        // Agregar opciones de seguros
+        seguros.forEach(seguro => {
+          const option = document.createElement('option');
+          option.value = seguro.id_seguro.toString();
+          option.textContent = seguro.tipo_de_seguro;
+          select.appendChild(option);
+        });
+      }
+    } catch (error) {
+      console.error('Error cargando seguros:', error);
+    }
+  }
+
+  // Cargar seguros al inicializar
+  document.addEventListener('DOMContentLoaded', loadSeguros);
+
+  // Manejar envío del formulario
+  document.getElementById('quote-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData(e.target as HTMLFormElement);
+    const profile = userProfile.get();
+    
+    if (!profile) {
+      alert('Debes iniciar sesión para solicitar una cotización');
+      window.location.href = '/login';
+      return;
+    }
+    
+    const cotizacionData = {
+      id_user: profile.id_users,
+      id_seguro: parseInt(formData.get('seguro_id') as string),
+      detalles: `
+        Nombre: ${formData.get('nombre')}
+        Email: ${formData.get('email')}
+        Teléfono: ${formData.get('telefono')}
+        Dirección: ${formData.get('direccion')}
+        
+        Detalles adicionales: ${formData.get('detalles')}
+      `.trim(),
+      nombre: formData.get('nombre') as string,
+      email: formData.get('email') as string,
+      telefono: formData.get('telefono') as string,
+      direccion: formData.get('direccion') as string,
+    };
+    
+    try {
+      await CotizacionesService.createCotizacion(cotizacionData);
+      alert('¡Cotización enviada exitosamente! Te contactaremos pronto.');
+      (e.target as HTMLFormElement).reset();
+    } catch (error) {
+      console.error('Error al enviar cotización:', error);
+      alert('Hubo un error al enviar tu cotización. Inténtalo de nuevo.');
+    }
+  });
+</script>

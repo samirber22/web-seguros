@@ -1,0 +1,175 @@
+---
+import ThemeToggle from '../atoms/ThemeToggle.astro';
+import Button from '../atoms/Button.astro';
+---
+
+<nav class="bg-white/80 dark:bg-dark-900/80 backdrop-blur-lg shadow-soft border-b border-gray-200 dark:border-dark-700 sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16">
+      <div class="flex items-center">
+        <a href="/" class="flex items-center group">
+          <div class="flex-shrink-0 flex items-center">
+            <div class="h-10 w-10 bg-gradient-to-br from-primary-600 to-secondary-600 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-200 transform group-hover:scale-105">
+              <span class="text-white font-bold text-lg">S</span>
+            </div>
+            <span class="ml-3 text-2xl font-bold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">SecureLife</span>
+          </div>
+        </a>
+        
+        <div class="hidden md:block ml-10">
+          <div class="flex items-baseline space-x-1">
+            <a href="/seguros" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-dark-800">
+              Seguros
+            </a>
+            <a href="/cotizar" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-dark-800">
+              Cotizar
+            </a>
+            <a href="/nosotros" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-dark-800">
+              Nosotros
+            </a>
+            <a href="/contacto" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-dark-800">
+              Contacto
+            </a>
+            <a href="/blog" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-dark-800">
+              Blog
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-4">
+        <ThemeToggle />
+        
+        <div class="hidden md:flex items-center space-x-3">
+          <Button variant="ghost" size="sm" href="/login">
+            Iniciar Sesión
+          </Button>
+          <Button variant="gradient" size="sm" href="/register">
+            Registrarse
+          </Button>
+        </div>
+        
+        <!-- User Menu (when logged in) -->
+        <div class="hidden md:block">
+          <div class="ml-4 flex items-center md:ml-6">
+            <div class="relative">
+              <button id="user-menu-button" class="flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 hidden">
+                <span class="sr-only">Abrir menú de usuario</span>
+                <div class="h-10 w-10 rounded-full bg-gradient-to-br from-primary-600 to-secondary-600 flex items-center justify-center shadow-lg">
+                  <span class="text-white font-medium text-sm">U</span>
+                </div>
+              </button>
+              
+              <div id="user-dropdown" class="hidden origin-top-right absolute right-0 mt-2 w-56 rounded-xl shadow-large bg-white dark:bg-dark-800 ring-1 ring-black ring-opacity-5 focus:outline-none z-50 border border-gray-200 dark:border-dark-700">
+                <div class="py-2">
+                  <a href="/dashboard" class="flex items-center px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors duration-200">
+                    <svg class="h-4 w-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"/>
+                    </svg>
+                    Dashboard
+                  </a>
+                  <a href="/polizas" class="flex items-center px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors duration-200">
+                    <svg class="h-4 w-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                    Mis Pólizas
+                  </a>
+                  <a href="/pqrs" class="flex items-center px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors duration-200">
+                    <svg class="h-4 w-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+                    </svg>
+                    PQRS
+                  </a>
+                  <a href="/pagos" class="flex items-center px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors duration-200">
+                    <svg class="h-4 w-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
+                    </svg>
+                    Pagos
+                  </a>
+                  <hr class="my-2 border-gray-200 dark:border-dark-700">
+                  <button id="logout-btn" class="flex items-center w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors duration-200">
+                    <svg class="h-4 w-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                    </svg>
+                    Cerrar Sesión
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="md:hidden">
+          <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-lg text-gray-400 hover:text-gray-500 hover:bg-gray-100 dark:hover:bg-dark-800 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500 transition-colors duration-200">
+            <span class="sr-only">Abrir menú principal</span>
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 dark:border-dark-700 bg-white/95 dark:bg-dark-900/95 backdrop-blur-lg">
+    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+      <a href="/seguros" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 block px-3 py-2 rounded-lg text-base font-medium transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-dark-800">
+        Seguros
+      </a>
+      <a href="/cotizar" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 block px-3 py-2 rounded-lg text-base font-medium transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-dark-800">
+        Cotizar
+      </a>
+      <a href="/nosotros" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 block px-3 py-2 rounded-lg text-base font-medium transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-dark-800">
+        Nosotros
+      </a>
+      <a href="/contacto" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 block px-3 py-2 rounded-lg text-base font-medium transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-dark-800">
+        Contacto
+      </a>
+      <a href="/blog" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 block px-3 py-2 rounded-lg text-base font-medium transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-dark-800">
+        Blog
+      </a>
+      <div class="border-t border-gray-200 dark:border-dark-700 pt-4 pb-3">
+        <div class="flex items-center px-3 space-x-3">
+          <Button variant="outline" size="sm" href="/login" class="flex-1">
+            Iniciar Sesión
+          </Button>
+          <Button variant="gradient" size="sm" href="/register" class="flex-1">
+            Registrarse
+          </Button>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  // Toggle mobile menu
+  document.getElementById('mobile-menu-button')?.addEventListener('click', () => {
+    const menu = document.getElementById('mobile-menu');
+    menu?.classList.toggle('hidden');
+  });
+
+  // Toggle user dropdown
+  document.getElementById('user-menu-button')?.addEventListener('click', () => {
+    const dropdown = document.getElementById('user-dropdown');
+    dropdown?.classList.toggle('hidden');
+  });
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', (event) => {
+    const button = document.getElementById('user-menu-button');
+    const dropdown = document.getElementById('user-dropdown');
+    
+    if (!button?.contains(event.target as Node) && !dropdown?.contains(event.target as Node)) {
+      dropdown?.classList.add('hidden');
+    }
+  });
+
+  // Logout functionality
+  document.getElementById('logout-btn')?.addEventListener('click', () => {
+    // TODO: Implementar logout
+    console.log('Logging out...');
+    window.location.href = '/login';
+  });
+</script>

@@ -1,0 +1,280 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Card from '../components/atoms/Card.astro';
+import Button from '../components/atoms/Button.astro';
+import Badge from '../components/atoms/Badge.astro';
+
+// Mock blog posts data
+const blogPosts = [
+  {
+    id: 1,
+    title: "5 Razones para Contratar un Seguro de Vida Joven",
+    excerpt: "Descubre por qué es importante proteger tu futuro desde temprana edad y cómo un seguro de vida puede ser tu mejor inversión.",
+    image: "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=800",
+    category: "Seguros de Vida",
+    date: "2024-01-15",
+    readTime: "5 min",
+    author: "Ana María Rodríguez"
+  },
+  {
+    id: 2,
+    title: "Cómo Elegir el Seguro de Auto Perfecto",
+    excerpt: "Guía completa para seleccionar la cobertura vehicular que mejor se adapte a tus necesidades y presupuesto.",
+    image: "https://images.pexels.com/photos/3807277/pexels-photo-3807277.jpeg?auto=compress&cs=tinysrgb&w=800",
+    category: "Seguros de Auto",
+    date: "2024-01-12",
+    readTime: "7 min",
+    author: "Carlos Mendoza"
+  },
+  {
+    id: 3,
+    title: "Protege tu Hogar: Todo sobre Seguros de Vivienda",
+    excerpt: "Conoce las coberturas esenciales para proteger tu patrimonio más importante contra cualquier eventualidad.",
+    image: "https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&w=800",
+    category: "Seguros de Hogar",
+    date: "2024-01-10",
+    readTime: "6 min",
+    author: "Laura Gómez"
+  },
+  {
+    id: 4,
+    title: "Seguros de Salud: Inversión en tu Bienestar",
+    excerpt: "La importancia de contar con un seguro médico completo y cómo elegir el plan que mejor se ajuste a tu familia.",
+    image: "https://images.pexels.com/photos/4386467/pexels-photo-4386467.jpeg?auto=compress&cs=tinysrgb&w=800",
+    category: "Seguros de Salud",
+    date: "2024-01-08",
+    readTime: "8 min",
+    author: "Dr. Miguel Torres"
+  },
+  {
+    id: 5,
+    title: "Tendencias en Seguros para 2024",
+    excerpt: "Descubre las innovaciones y tendencias que están transformando la industria aseguradora este año.",
+    image: "https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=800",
+    category: "Tendencias",
+    date: "2024-01-05",
+    readTime: "10 min",
+    author: "Ana María Rodríguez"
+  },
+  {
+    id: 6,
+    title: "Mitos y Realidades de los Seguros",
+    excerpt: "Desmontamos los mitos más comunes sobre los seguros y te contamos la verdad detrás de cada uno.",
+    image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=800",
+    category: "Educación",
+    date: "2024-01-03",
+    readTime: "6 min",
+    author: "Carlos Mendoza"
+  }
+];
+
+const categories = ["Todos", "Seguros de Vida", "Seguros de Auto", "Seguros de Hogar", "Seguros de Salud", "Tendencias", "Educación"];
+---
+
+<MainLayout title="Blog - SecureLife" description="Mantente informado con nuestros artículos sobre seguros, consejos y tendencias del sector.">
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-br from-primary-600 to-secondary-700 text-white py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <h1 class="text-5xl md:text-6xl font-bold mb-6">
+          Blog SecureLife
+        </h1>
+        <p class="text-xl md:text-2xl text-primary-100 max-w-3xl mx-auto">
+          Mantente informado con consejos, guías y las últimas tendencias en seguros
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Post -->
+  <section class="py-20 bg-white dark:bg-dark-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-12">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">Artículo Destacado</h2>
+        <p class="text-gray-600 dark:text-gray-300">Lo más relevante de esta semana</p>
+      </div>
+      
+      <Card class="overflow-hidden" shadow="lg" hover={true}>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div class="relative">
+            <img 
+              src={blogPosts[0].image} 
+              alt={blogPosts[0].title}
+              class="w-full h-64 lg:h-full object-cover rounded-xl"
+            />
+            <div class="absolute top-4 left-4">
+              <Badge variant="primary">{blogPosts[0].category}</Badge>
+            </div>
+          </div>
+          <div class="flex flex-col justify-center">
+            <div class="flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-400 mb-4">
+              <span>{new Date(blogPosts[0].date).toLocaleDateString()}</span>
+              <span>•</span>
+              <span>{blogPosts[0].readTime} de lectura</span>
+              <span>•</span>
+              <span>{blogPosts[0].author}</span>
+            </div>
+            <h3 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+              {blogPosts[0].title}
+            </h3>
+            <p class="text-lg text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+              {blogPosts[0].excerpt}
+            </p>
+            <Button variant="primary" size="lg" href={`/blog/${blogPosts[0].id}`}>
+              Leer Artículo Completo
+            </Button>
+          </div>
+        </div>
+      </Card>
+    </div>
+  </section>
+
+  <!-- Categories Filter -->
+  <section class="py-8 bg-gray-50 dark:bg-dark-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-wrap gap-3 justify-center">
+        {categories.map((category) => (
+          <button 
+            class={`px-4 py-2 rounded-xl text-sm font-medium transition-colors duration-200 ${
+              category === "Todos" 
+                ? "bg-primary-600 text-white" 
+                : "bg-white dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-primary-100 dark:hover:bg-dark-600"
+            }`}
+          >
+            {category}
+          </button>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog Posts Grid -->
+  <section class="py-20 bg-white dark:bg-dark-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-12">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">Últimos Artículos</h2>
+        <p class="text-gray-600 dark:text-gray-300">Descubre contenido valioso sobre seguros</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {blogPosts.slice(1).map((post) => (
+          <Card class="overflow-hidden group" shadow="lg" hover={true}>
+            <div class="relative">
+              <img 
+                src={post.image} 
+                alt={post.title}
+                class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div class="absolute top-4 left-4">
+                <Badge variant="secondary">{post.category}</Badge>
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center space-x-2 text-xs text-gray-500 dark:text-gray-400 mb-3">
+                <span>{new Date(post.date).toLocaleDateString()}</span>
+                <span>•</span>
+                <span>{post.readTime}</span>
+              </div>
+              <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200">
+                {post.title}
+              </h3>
+              <p class="text-gray-600 dark:text-gray-300 mb-4 text-sm leading-relaxed">
+                {post.excerpt}
+              </p>
+              <div class="flex items-center justify-between">
+                <span class="text-xs text-gray-500 dark:text-gray-400">{post.author}</span>
+                <Button variant="ghost" size="sm" href={`/blog/${post.id}`}>
+                  Leer más
+                </Button>
+              </div>
+            </div>
+          </Card>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter Section -->
+  <section class="py-20 bg-gradient-to-r from-primary-600 to-secondary-600">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-4xl font-bold text-white mb-6">
+        Suscríbete a nuestro newsletter
+      </h2>
+      <p class="text-xl text-primary-100 mb-8">
+        Recibe los mejores consejos sobre seguros directamente en tu email
+      </p>
+      
+      <form class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+        <input 
+          type="email" 
+          placeholder="tu@email.com"
+          class="flex-1 px-4 py-3 rounded-xl border-0 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary-600"
+          required
+        />
+        <Button variant="secondary" size="lg" type="submit">
+          Suscribirse
+        </Button>
+      </form>
+      
+      <p class="text-sm text-primary-200 mt-4">
+        No spam. Puedes cancelar en cualquier momento.
+      </p>
+    </div>
+  </section>
+
+  <!-- Related Topics -->
+  <section class="py-20 bg-gray-50 dark:bg-dark-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">
+          Temas de Interés
+        </h2>
+        <p class="text-xl text-gray-600 dark:text-gray-300">
+          Explora más contenido sobre seguros
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <Card class="text-center" hover={true}>
+          <div class="mx-auto h-12 w-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mb-4">
+            <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+            </svg>
+          </div>
+          <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Seguros de Vida</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300">Guías y consejos</p>
+        </Card>
+        
+        <Card class="text-center" hover={true}>
+          <div class="mx-auto h-12 w-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center mb-4">
+            <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12a3 3 0 110-6 3 3 0 010 6zm0 0a3 3 0 110 6 3 3 0 010-6zm0 0h6m-6 0l6 6m-6-6l6-6"/>
+            </svg>
+          </div>
+          <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Seguros de Auto</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300">Tips y comparativas</p>
+        </Card>
+        
+        <Card class="text-center" hover={true}>
+          <div class="mx-auto h-12 w-12 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-xl flex items-center justify-center mb-4">
+            <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+            </svg>
+          </div>
+          <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Seguros de Hogar</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300">Protección patrimonial</p>
+        </Card>
+        
+        <Card class="text-center" hover={true}>
+          <div class="mx-auto h-12 w-12 bg-gradient-to-br from-red-500 to-red-600 rounded-xl flex items-center justify-center mb-4">
+            <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+          </div>
+          <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Tendencias</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300">Innovación en seguros</p>
+        </Card>
+      </div>
+    </div>
+  </section>
+</MainLayout>
