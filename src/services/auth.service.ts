@@ -93,15 +93,22 @@ export class AuthService {
 
   static async signIn(email: string, password: string) {
     try {
+      console.log('Attempting login with:', email);
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Supabase auth error:', error);
+        throw error;
+      }
+
+      console.log('Auth successful, user:', data.user);
 
       if (data.user) {
         const profile = await this.getUserProfile(data.user.id);
+        console.log('Profile loaded:', profile);
         return { user: data.user, profile };
       }
 
@@ -138,6 +145,7 @@ export class AuthService {
 
   static async getUserProfile(authId: string): Promise<UserProfile | null> {
   try {
+    console.log('Getting profile for user:', authId);
     const { data, error } = await supabase
       .from('users')
       .select(`
@@ -158,10 +166,20 @@ export class AuthService {
       .eq('id', authId)
       .single();
 
-    if (error) throw error;
+    if (error) {
+      console.error('Profile fetch error:', error);
+      // Si el usuario no existe en la tabla users, crear un perfil básico
+      if (error.code === 'PGRST116') {
+        console.log('User not found in users table, this might be expected for new users');
+        return null;
+      }
+      throw error;
+    }
+
+    console.log('Profile data:', data);
 
     return {
-  id: data.id_users,
+  id: data.id,
   nombre: data.nombre,
   apellido: data.apellido || '',
   fecha_registro: data.fecha_registro || '',

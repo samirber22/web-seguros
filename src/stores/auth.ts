@@ -52,19 +52,30 @@ supabase.auth.onAuthStateChange(async (event, session) => {
 // Login
 export async function login(email: string, password: string) {
   try {
+    console.log('Store login function called with:', email);
     const { user, profile } = await AuthService.signIn(email, password);
+    console.log('AuthService returned:', { user: !!user, profile: !!profile });
     
     if (user && profile) {
       isAuthenticated.set(true);
       currentUser.set(user);
       userProfile.set(profile);
+      console.log('Auth state updated successfully');
       return { success: true, user, profile };
+    } else if (user && !profile) {
+      // Usuario autenticado pero sin perfil en la tabla users
+      isAuthenticated.set(true);
+      currentUser.set(user);
+      userProfile.set(null);
+      console.log('User authenticated but no profile found');
+      return { success: true, user, profile: null };
     }
     
+    console.log('Login failed: no user returned');
     return { success: false, error: 'Credenciales inválidas' };
   } catch (error: any) {
     console.error('Error en login:', error);
-    return { success: false, error: error.message || 'Error en el login' };
+    return { success: false, error: error.message || error.error_description || 'Error en el login' };
   }
 }
 

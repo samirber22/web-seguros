@@ -65,30 +65,69 @@ import Button from '../components/atoms/Button.astro';
 </AuthLayout>
 
 <script>
-  import { login } from '../stores/auth';
+  // Importar dinámicamente para evitar problemas de SSR
+  let loginFunction: any = null;
+
+  async function initializeAuth() {
+    try {
+      const authModule = await import('../stores/auth');
+      loginFunction = authModule.login;
+      console.log('Auth module loaded successfully');
+    } catch (error) {
+      console.error('Error loading auth module:', error);
+    }
+  }
+
+  // Inicializar cuando el DOM esté listo
+  document.addEventListener('DOMContentLoaded', initializeAuth);
 
   document.getElementById('login-form')?.addEventListener('submit', async (e) => {
     e.preventDefault();
+    console.log('Login form submitted');
+    
+    // Asegurar que el módulo de auth esté cargado
+    if (!loginFunction) {
+      await initializeAuth();
+    }
+    
+    if (!loginFunction) {
+      alert('Error: No se pudo cargar el sistema de autenticación');
+      return;
+    }
     
     const formData = new FormData(e.target as HTMLFormElement);
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
     
+    console.log('Attempting login with email:', email);
+    
+    // Deshabilitar el botón de envío
+    const submitBtn = document.querySelector('button[type="submit"]') as HTMLButtonElement;
+    const originalText = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Iniciando sesión...';
+    
     try {
-      const result = await login(email, password);
+      const result = await loginFunction(email, password);
+      console.log('Login result:', result);
       
       if (result.success) {
-        alert('¡Inicio de sesión exitoso!');
+        console.log('Login successful, redirecting...');
         // Redirigir después de un breve delay para permitir que se actualice el estado
         setTimeout(() => {
           window.location.href = '/dashboard';
-        }, 100);
+        }, 500);
       } else {
+        console.error('Login failed:', result.error);
         alert(result.error || 'Error al iniciar sesión');
       }
     } catch (error) {
       console.error('Error de login:', error);
-      alert('Error al iniciar sesión. Verifica tus credenciales.');
+      alert(`Error al iniciar sesión: ${error.message || 'Verifica tus credenciales.'}`);
+    } finally {
+      // Rehabilitar el botón
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
     }
   });
 </script>
