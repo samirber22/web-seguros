@@ -40,7 +40,7 @@ import Button from '../atoms/Button.astro';
       <div class="flex items-center space-x-4">
         <ThemeToggle />
         
-        <div class="hidden md:flex items-center space-x-3">
+        <div id="auth-buttons" class="hidden md:flex items-center space-x-3">
           <Button variant="ghost" size="sm" href="/login">
             Iniciar Sesión
           </Button>
@@ -50,48 +50,84 @@ import Button from '../atoms/Button.astro';
         </div>
         
         <!-- User Menu (when logged in) -->
-        <div class="hidden md:block">
+        <div id="user-menu" class="hidden md:block" style="display: none;">
           <div class="ml-4 flex items-center md:ml-6">
             <div class="relative">
-              <button id="user-menu-button" class="flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 hidden">
+              <button id="user-menu-button" class="flex items-center space-x-3 text-sm rounded-xl bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-700 px-4 py-2 hover:bg-gray-50 dark:hover:bg-dark-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-200 shadow-sm hover:shadow-md">
                 <span class="sr-only">Abrir menú de usuario</span>
-                <div class="h-10 w-10 rounded-full bg-gradient-to-br from-primary-600 to-secondary-600 flex items-center justify-center shadow-lg">
-                  <span class="text-white font-medium text-sm">U</span>
+                <div class="h-8 w-8 rounded-full bg-gradient-to-br from-primary-600 to-secondary-600 flex items-center justify-center shadow-sm">
+                  <span id="user-initials" class="text-white font-medium text-xs">U</span>
                 </div>
+                <div class="text-left">
+                  <div id="user-name" class="text-sm font-medium text-gray-900 dark:text-white">Usuario</div>
+                  <div id="user-role" class="text-xs text-gray-500 dark:text-gray-400">Cliente</div>
+                </div>
+                <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
               </button>
               
-              <div id="user-dropdown" class="hidden origin-top-right absolute right-0 mt-2 w-56 rounded-xl shadow-large bg-white dark:bg-dark-800 ring-1 ring-black ring-opacity-5 focus:outline-none z-50 border border-gray-200 dark:border-dark-700">
+              <div id="user-dropdown" class="hidden origin-top-right absolute right-0 mt-3 w-72 rounded-2xl shadow-2xl bg-white dark:bg-dark-800 ring-1 ring-black ring-opacity-5 focus:outline-none z-50 border border-gray-200 dark:border-dark-700 overflow-hidden">
+                <!-- User Info Header -->
+                <div class="px-6 py-4 bg-gradient-to-r from-primary-50 to-secondary-50 dark:from-primary-900/20 dark:to-secondary-900/20 border-b border-gray-200 dark:border-dark-700">
+                  <div class="flex items-center space-x-3">
+                    <div class="h-12 w-12 rounded-full bg-gradient-to-br from-primary-600 to-secondary-600 flex items-center justify-center shadow-lg">
+                      <span id="dropdown-user-initials" class="text-white font-bold text-lg">U</span>
+                    </div>
+                    <div>
+                      <div id="dropdown-user-name" class="text-base font-semibold text-gray-900 dark:text-white">Usuario</div>
+                      <div id="dropdown-user-email" class="text-sm text-gray-600 dark:text-gray-400">usuario@email.com</div>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Menu Items -->
                 <div class="py-2">
-                  <a href="/dashboard" class="flex items-center px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors duration-200">
+                  <a href="/dashboard" class="flex items-center px-6 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-dark-700 transition-colors duration-200 group">
                     <svg class="h-4 w-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"/>
                     </svg>
-                    Dashboard
+                    <span class="group-hover:text-primary-600 dark:group-hover:text-primary-400">Dashboard</span>
                   </a>
-                  <a href="/polizas" class="flex items-center px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors duration-200">
+                  <a href="/polizas" class="flex items-center px-6 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-dark-700 transition-colors duration-200 group">
                     <svg class="h-4 w-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                     </svg>
-                    Mis Pólizas
+                    <span class="group-hover:text-primary-600 dark:group-hover:text-primary-400">Mis Pólizas</span>
                   </a>
-                  <a href="/pqrs" class="flex items-center px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors duration-200">
+                  <a href="/perfil" class="flex items-center px-6 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-dark-700 transition-colors duration-200 group">
+                    <svg class="h-4 w-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                    </svg>
+                    <span class="group-hover:text-primary-600 dark:group-hover:text-primary-400">Mi Perfil</span>
+                  </a>
+                  <a href="/pqrs" class="flex items-center px-6 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-dark-700 transition-colors duration-200 group">
                     <svg class="h-4 w-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
                     </svg>
-                    PQRS
+                    <span class="group-hover:text-primary-600 dark:group-hover:text-primary-400">PQRS</span>
                   </a>
-                  <a href="/pagos" class="flex items-center px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors duration-200">
+                  <a href="/pagos" class="flex items-center px-6 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-dark-700 transition-colors duration-200 group">
                     <svg class="h-4 w-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
                     </svg>
-                    Pagos
+                    <span class="group-hover:text-primary-600 dark:group-hover:text-primary-400">Pagos</span>
                   </a>
-                  <hr class="my-2 border-gray-200 dark:border-dark-700">
-                  <button id="logout-btn" class="flex items-center w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors duration-200">
+                  <a href="/ayuda" class="flex items-center px-6 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-dark-700 transition-colors duration-200 group">
+                    <svg class="h-4 w-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <span class="group-hover:text-primary-600 dark:group-hover:text-primary-400">Centro de Ayuda</span>
+                  </a>
+                </div>
+                
+                <!-- Logout Section -->
+                <div class="border-t border-gray-200 dark:border-dark-700 py-2">
+                  <button id="logout-btn" class="flex items-center w-full text-left px-6 py-3 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors duration-200 group">
                     <svg class="h-4 w-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
                     </svg>
-                    Cerrar Sesión
+                    <span class="font-medium">Cerrar Sesión</span>
                   </button>
                 </div>
               </div>
@@ -129,7 +165,9 @@ import Button from '../atoms/Button.astro';
       <a href="/blog" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 block px-3 py-2 rounded-lg text-base font-medium transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-dark-800">
         Blog
       </a>
-      <div class="border-t border-gray-200 dark:border-dark-700 pt-4 pb-3">
+      
+      <!-- Mobile Auth Buttons -->
+      <div id="mobile-auth-buttons" class="border-t border-gray-200 dark:border-dark-700 pt-4 pb-3">
         <div class="flex items-center px-3 space-x-3">
           <Button variant="outline" size="sm" href="/login" class="flex-1">
             Iniciar Sesión
@@ -139,11 +177,123 @@ import Button from '../atoms/Button.astro';
           </Button>
         </div>
       </div>
+      
+      <!-- Mobile User Menu -->
+      <div id="mobile-user-menu" class="border-t border-gray-200 dark:border-dark-700 pt-4 pb-3" style="display: none;">
+        <div class="flex items-center px-3 mb-4">
+          <div class="h-10 w-10 rounded-full bg-gradient-to-br from-primary-600 to-secondary-600 flex items-center justify-center shadow-lg mr-3">
+            <span id="mobile-user-initials" class="text-white font-medium text-sm">U</span>
+          </div>
+          <div>
+            <div id="mobile-user-name" class="text-base font-medium text-gray-900 dark:text-white">Usuario</div>
+            <div id="mobile-user-role" class="text-sm text-gray-500 dark:text-gray-400">Cliente</div>
+          </div>
+        </div>
+        <div class="space-y-1">
+          <a href="/dashboard" class="block px-3 py-2 rounded-lg text-base font-medium text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-100 dark:hover:bg-dark-800">Dashboard</a>
+          <a href="/polizas" class="block px-3 py-2 rounded-lg text-base font-medium text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-100 dark:hover:bg-dark-800">Mis Pólizas</a>
+          <a href="/perfil" class="block px-3 py-2 rounded-lg text-base font-medium text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-100 dark:hover:bg-dark-800">Mi Perfil</a>
+          <button id="mobile-logout-btn" class="block w-full text-left px-3 py-2 rounded-lg text-base font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20">Cerrar Sesión</button>
+        </div>
+      </div>
     </div>
   </div>
 </nav>
 
 <script>
+  import { isAuthenticated, userProfile, currentUser, initAuth, logout } from '../../stores/auth';
+  import { useStore } from '@nanostores/react';
+
+  // Función para obtener iniciales del nombre
+  function getInitials(name: string): string {
+    return name
+      .split(' ')
+      .map(word => word.charAt(0))
+      .join('')
+      .toUpperCase()
+      .substring(0, 2);
+  }
+
+  // Función para actualizar la UI con datos del usuario
+  function updateUserUI(profile: any, user: any) {
+    const fullName = `${profile.nombre} ${profile.apellido || ''}`.trim();
+    const initials = getInitials(fullName);
+    const role = profile.role?.nombre_rol || 'Cliente';
+    const email = user?.email || '';
+
+    // Actualizar elementos del menú desktop
+    const userInitials = document.getElementById('user-initials');
+    const userName = document.getElementById('user-name');
+    const userRole = document.getElementById('user-role');
+    const dropdownUserInitials = document.getElementById('dropdown-user-initials');
+    const dropdownUserName = document.getElementById('dropdown-user-name');
+    const dropdownUserEmail = document.getElementById('dropdown-user-email');
+
+    if (userInitials) userInitials.textContent = initials;
+    if (userName) userName.textContent = fullName;
+    if (userRole) userRole.textContent = role;
+    if (dropdownUserInitials) dropdownUserInitials.textContent = initials;
+    if (dropdownUserName) dropdownUserName.textContent = fullName;
+    if (dropdownUserEmail) dropdownUserEmail.textContent = email;
+
+    // Actualizar elementos del menú móvil
+    const mobileUserInitials = document.getElementById('mobile-user-initials');
+    const mobileUserName = document.getElementById('mobile-user-name');
+    const mobileUserRole = document.getElementById('mobile-user-role');
+
+    if (mobileUserInitials) mobileUserInitials.textContent = initials;
+    if (mobileUserName) mobileUserName.textContent = fullName;
+    if (mobileUserRole) mobileUserRole.textContent = role;
+  }
+
+  // Función para mostrar/ocultar elementos según estado de autenticación
+  function toggleAuthElements(authenticated: boolean) {
+    const authButtons = document.getElementById('auth-buttons');
+    const userMenu = document.getElementById('user-menu');
+    const mobileAuthButtons = document.getElementById('mobile-auth-buttons');
+    const mobileUserMenu = document.getElementById('mobile-user-menu');
+
+    if (authenticated) {
+      authButtons?.classList.add('hidden');
+      userMenu?.style.setProperty('display', 'block');
+      mobileAuthButtons?.style.setProperty('display', 'none');
+      mobileUserMenu?.style.setProperty('display', 'block');
+    } else {
+      authButtons?.classList.remove('hidden');
+      userMenu?.style.setProperty('display', 'none');
+      mobileAuthButtons?.style.setProperty('display', 'block');
+      mobileUserMenu?.style.setProperty('display', 'none');
+    }
+  }
+
+  // Inicializar autenticación al cargar la página
+  document.addEventListener('DOMContentLoaded', async () => {
+    await initAuth();
+    
+    // Suscribirse a cambios en el estado de autenticación
+    isAuthenticated.subscribe((authenticated) => {
+      toggleAuthElements(authenticated);
+    });
+
+    // Suscribirse a cambios en el perfil del usuario
+    userProfile.subscribe((profile) => {
+      const user = currentUser.get();
+      if (profile && user) {
+        updateUserUI(profile, user);
+      }
+    });
+
+    // Verificar estado inicial
+    const authenticated = isAuthenticated.get();
+    const profile = userProfile.get();
+    const user = currentUser.get();
+    
+    toggleAuthElements(authenticated);
+    if (authenticated && profile && user) {
+      updateUserUI(profile, user);
+    }
+  });
+
   // Toggle mobile menu
   document.getElementById('mobile-menu-button')?.addEventListener('click', () => {
     const menu = document.getElementById('mobile-menu');
@@ -167,9 +317,11 @@ import Button from '../atoms/Button.astro';
   });
 
   // Logout functionality
-  document.getElementById('logout-btn')?.addEventListener('click', () => {
-    // TODO: Implementar logout
-    console.log('Logging out...');
-    window.location.href = '/login';
+  document.getElementById('logout-btn')?.addEventListener('click', async () => {
+    await logout();
+  });
+
+  document.getElementById('mobile-logout-btn')?.addEventListener('click', async () => {
+    await logout();
   });
 </script>

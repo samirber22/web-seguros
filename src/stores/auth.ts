@@ -1,6 +1,7 @@
 import { atom } from 'nanostores';
 import { AuthService, type UserProfile } from '../services/auth.service';
 import type { User } from '@supabase/supabase-js';
+import { supabase } from '../lib/supabase';
 
 export const isAuthenticated = atom<boolean>(false);
 export const currentUser = atom<User | null>(null);
@@ -31,6 +32,22 @@ export async function initAuth() {
     isLoading.set(false);
   }
 }
+
+// Escuchar cambios de autenticación
+supabase.auth.onAuthStateChange(async (event, session) => {
+  if (event === 'SIGNED_IN' && session?.user) {
+    const profile = await AuthService.getUserProfile(session.user.id);
+    if (profile) {
+      isAuthenticated.set(true);
+      currentUser.set(session.user);
+      userProfile.set(profile);
+    }
+  } else if (event === 'SIGNED_OUT') {
+    isAuthenticated.set(false);
+    currentUser.set(null);
+    userProfile.set(null);
+  }
+});
 
 // Login
 export async function login(email: string, password: string) {

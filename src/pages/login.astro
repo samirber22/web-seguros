@@ -79,7 +79,10 @@ import Button from '../components/atoms/Button.astro';
       
       if (result.success) {
         alert('¡Inicio de sesión exitoso!');
-        window.location.href = '/dashboard';
+        // Redirigir después de un breve delay para permitir que se actualice el estado
+        setTimeout(() => {
+          window.location.href = '/dashboard';
+        }, 100);
       } else {
         alert(result.error || 'Error al iniciar sesión');
       }

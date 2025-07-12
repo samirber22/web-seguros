@@ -59,21 +59,23 @@ export class AuthService {
 
       if (authData.user) {
         const { data: profileData, error: profileError } = await supabase
-          .from('profiles')
+          .from('users')
           .insert({
+            id: authData.user.id,
             nombre: userData.nombre,
             apellido: userData.apellido || null,
-            direccion: userData.direccion || null,
+            direction: userData.direccion || null,
             barrio: userData.barrio || null,
             id_ciudad: userData.id_ciudad || null,
             telefono: userData.telefono || null,
-            rol_id: 1, // Usuario por defecto
-            id_auth: authData.user.id,
+            id_rol: 1, // Usuario por defecto
+            email: userData.email || authData.user.email,
+            fecha_registro: new Date().toISOString(),
           })
           .select(
             `*,
-            roles(id, nombre_rol),
-            ciudad(id_ciudad, nombre, departamentos(id_depar, nombre))`
+            roles(id_rol, roles),
+            ciudades(id_ciudad, nombre_ciu, departamentos(id_depa, nombre_depa))`
           )
           .single();
 
@@ -137,47 +139,47 @@ export class AuthService {
   static async getUserProfile(authId: string): Promise<UserProfile | null> {
   try {
     const { data, error } = await supabase
-      .from('profiles')
+      .from('users')
       .select(`
         *,
         roles (
-          id,
-          nombre_rol
+          id_rol,
+          roles
         ),
-        ciudad (
+        ciudades (
           id_ciudad,
-          nombre,
+          nombre_ciu,
           departamentos (
-            id_depar,
-            nombre
+            id_depa,
+            nombre_depa
           )
         )
       `)
-      .eq('id_auth', authId)
+      .eq('id', authId)
       .single();
 
     if (error) throw error;
 
     return {
-  id: data.id,
+  id: data.id_users,
   nombre: data.nombre,
   apellido: data.apellido || '',
   fecha_registro: data.fecha_registro || '',
-  id_rol: data.rol_id,
+  id_rol: data.id_rol,
   id_ciudad: data.id_ciudad,
   telefono: data.telefono,
   direction: data.direccion,
-  //email: data.email,
+  email: data.email,
   role: data.roles ? {
-    id: data.roles.id,
-    nombre_rol: data.roles.nombre_rol
+    id: data.roles.id_rol,
+    nombre_rol: data.roles.roles
   } : undefined,
-  ciudad: data.ciudad ? {
-    id_ciudad: data.ciudad.id_ciudad,
-    nombre: data.ciudad.nombre,
-    departamento: data.ciudad.departamentos ? {
-      id_depar: data.ciudad.departamentos.id_depar,
-      nombre: data.ciudad.departamentos.nombre
+  ciudad: data.ciudades ? {
+    id_ciudad: data.ciudades.id_ciudad,
+    nombre: data.ciudades.nombre_ciu,
+    departamento: data.ciudades.departamentos ? {
+      id_depar: data.ciudades.departamentos.id_depa,
+      nombre: data.ciudades.departamentos.nombre_depa
     } : undefined
   } : undefined
 };
@@ -192,13 +194,13 @@ export class AuthService {
   static async updateProfile(userId: number, updates: Partial<UserProfile>) {
     try {
       const { data, error } = await supabase
-        .from('profiles')
+        .from('users')
         .update(updates)
-        .eq('id', userId)
+        .eq('id_users', userId)
         .select(`
           *,
-          roles(id, nombre_rol),
-          ciudad(id_ciudad, nombre, departamentos(id_depar, nombre))
+          roles(id_rol, roles),
+          ciudades(id_ciudad, nombre_ciu, departamentos(id_depa, nombre_depa))
         `)
         .single();
 
@@ -212,7 +214,7 @@ export class AuthService {
 
   static hasRole(profile: UserProfile | null, requiredRole: string): boolean {
     if (!profile || !profile.role) return false;
-    return profile.role.nombre_rol.toLowerCase() === requiredRole.toLowerCase();
+    return profile.role.roles.toLowerCase() === requiredRole.toLowerCase();
   }
 
   static isAdmin(profile: UserProfile | null): boolean {

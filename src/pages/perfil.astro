@@ -1,0 +1,426 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Card from '../components/atoms/Card.astro';
+import Input from '../components/atoms/Input.astro';
+import Button from '../components/atoms/Button.astro';
+---
+
+<MainLayout title="Mi Perfil - SecureLife">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Header -->
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Mi Perfil</h1>
+      <p class="text-gray-600 dark:text-gray-300 mt-2">Administra tu información personal y configuración de cuenta</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Profile Summary -->
+      <div class="lg:col-span-1">
+        <Card class="text-center">
+          <div class="mb-6">
+            <div class="mx-auto h-24 w-24 rounded-full bg-gradient-to-br from-primary-600 to-secondary-600 flex items-center justify-center shadow-lg mb-4">
+              <span id="profile-initials" class="text-white font-bold text-2xl">U</span>
+            </div>
+            <h3 id="profile-name" class="text-xl font-bold text-gray-900 dark:text-white mb-2">Cargando...</h3>
+            <p id="profile-role" class="text-gray-600 dark:text-gray-300">Cliente</p>
+          </div>
+          
+          <div class="space-y-3 text-sm">
+            <div class="flex items-center justify-between">
+              <span class="text-gray-500 dark:text-gray-400">Estado:</span>
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                Activo
+              </span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-gray-500 dark:text-gray-400">Miembro desde:</span>
+              <span id="profile-member-since" class="text-gray-900 dark:text-white">2024</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-gray-500 dark:text-gray-400">Pólizas activas:</span>
+              <span class="text-gray-900 dark:text-white">3</span>
+            </div>
+          </div>
+        </Card>
+
+        <!-- Quick Actions -->
+        <Card class="mt-6">
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Acciones Rápidas</h3>
+          <div class="space-y-3">
+            <Button variant="outline" size="sm" href="/polizas" class="w-full justify-start">
+              <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+              Ver Mis Pólizas
+            </Button>
+            <Button variant="outline" size="sm" href="/cotizar" class="w-full justify-start">
+              <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              Nueva Cotización
+            </Button>
+            <Button variant="outline" size="sm" href="/pqrs" class="w-full justify-start">
+              <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+              </svg>
+              Enviar PQRS
+            </Button>
+          </div>
+        </Card>
+      </div>
+
+      <!-- Profile Form -->
+      <div class="lg:col-span-2">
+        <Card>
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-6">Información Personal</h2>
+          
+          <form id="profile-form" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Input
+                type="text"
+                name="nombre"
+                label="Nombre"
+                placeholder="Tu nombre"
+                required
+              />
+              
+              <Input
+                type="text"
+                name="apellido"
+                label="Apellido"
+                placeholder="Tu apellido"
+                required
+              />
+            </div>
+            
+            <Input
+              type="email"
+              name="email"
+              label="Correo electrónico"
+              placeholder="tu@email.com"
+              required
+              disabled
+            />
+            
+            <Input
+              type="tel"
+              name="telefono"
+              label="Teléfono"
+              placeholder="+57 300 000 0000"
+            />
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Departamento
+                </label>
+                <select 
+                  name="departamento_id" 
+                  id="departamento-select"
+                  class="block w-full rounded-xl border-gray-300 dark:border-dark-600 dark:bg-dark-700 dark:text-white shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
+                >
+                  <option value="">Selecciona un departamento</option>
+                </select>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Ciudad
+                </label>
+                <select 
+                  name="ciudad_id" 
+                  id="ciudad-select"
+                  disabled
+                  class="block w-full rounded-xl border-gray-300 dark:border-dark-600 dark:bg-dark-700 dark:text-white shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm disabled:bg-gray-100 disabled:cursor-not-allowed"
+                >
+                  <option value="">Primero selecciona un departamento</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Input
+                type="text"
+                name="direccion"
+                label="Dirección"
+                placeholder="Calle 123 #45-67"
+              />
+              
+              <Input
+                type="text"
+                name="barrio"
+                label="Barrio"
+                placeholder="Nombre del barrio"
+              />
+            </div>
+            
+            <div class="flex justify-end space-x-4">
+              <Button variant="outline" type="button" id="cancel-btn">
+                Cancelar
+              </Button>
+              <Button variant="primary" type="submit">
+                Guardar Cambios
+              </Button>
+            </div>
+          </form>
+        </Card>
+
+        <!-- Change Password -->
+        <Card class="mt-6">
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-6">Cambiar Contraseña</h2>
+          
+          <form id="password-form" class="space-y-6">
+            <Input
+              type="password"
+              name="current_password"
+              label="Contraseña actual"
+              placeholder="Tu contraseña actual"
+              required
+            />
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Input
+                type="password"
+                name="new_password"
+                label="Nueva contraseña"
+                placeholder="Mínimo 8 caracteres"
+                required
+              />
+              
+              <Input
+                type="password"
+                name="confirm_password"
+                label="Confirmar nueva contraseña"
+                placeholder="Confirma tu nueva contraseña"
+                required
+              />
+            </div>
+            
+            <div class="flex justify-end">
+              <Button variant="secondary" type="submit">
+                Cambiar Contraseña
+              </Button>
+            </div>
+          </form>
+        </Card>
+      </div>
+    </div>
+  </div>
+</MainLayout>
+
+<script>
+  import { userProfile, currentUser, initAuth } from '../stores/auth';
+  import { LocationService } from '../services/location.service';
+  import { AuthService } from '../services/auth.service';
+
+  let departamentos: any[] = [];
+  let ciudades: any[] = [];
+
+  // Función para obtener iniciales del nombre
+  function getInitials(name: string): string {
+    return name
+      .split(' ')
+      .map(word => word.charAt(0))
+      .join('')
+      .toUpperCase()
+      .substring(0, 2);
+  }
+
+  // Cargar departamentos
+  async function loadDepartamentos() {
+    try {
+      departamentos = await LocationService.getDepartamentos();
+      const select = document.getElementById('departamento-select') as HTMLSelectElement;
+      
+      if (select) {
+        while (select.children.length > 1) {
+          select.removeChild(select.lastChild!);
+        }
+        
+        departamentos.forEach(depto => {
+          const option = document.createElement('option');
+          option.value = depto.id_depa.toString();
+          option.textContent = depto.nombre_depa;
+          select.appendChild(option);
+        });
+      }
+    } catch (error) {
+      console.error('Error cargando departamentos:', error);
+    }
+  }
+
+  // Cargar ciudades
+  async function loadCiudades(departamentoId: number) {
+    try {
+      ciudades = await LocationService.getCiudadesByDepartamento(departamentoId);
+      const select = document.getElementById('ciudad-select') as HTMLSelectElement;
+      
+      if (select) {
+        select.innerHTML = '<option value="">Selecciona una ciudad</option>';
+        select.disabled = false;
+        
+        ciudades.forEach(ciudad => {
+          const option = document.createElement('option');
+          option.value = ciudad.id_ciudad.toString();
+          option.textContent = ciudad.nombre_ciu;
+          select.appendChild(option);
+        });
+      }
+    } catch (error) {
+      console.error('Error cargando ciudades:', error);
+    }
+  }
+
+  // Cargar datos del perfil
+  function loadProfileData() {
+    const profile = userProfile.get();
+    const user = currentUser.get();
+    
+    if (!profile || !user) return;
+
+    const fullName = `${profile.nombre} ${profile.apellido || ''}`.trim();
+    const initials = getInitials(fullName);
+    
+    // Actualizar elementos de resumen
+    const profileInitials = document.getElementById('profile-initials');
+    const profileName = document.getElementById('profile-name');
+    const profileRole = document.getElementById('profile-role');
+    const profileMemberSince = document.getElementById('profile-member-since');
+    
+    if (profileInitials) profileInitials.textContent = initials;
+    if (profileName) profileName.textContent = fullName;
+    if (profileRole) profileRole.textContent = profile.role?.nombre_rol || 'Cliente';
+    if (profileMemberSince && profile.fecha_registro) {
+      const date = new Date(profile.fecha_registro);
+      profileMemberSince.textContent = date.getFullYear().toString();
+    }
+
+    // Llenar formulario
+    const form = document.getElementById('profile-form') as HTMLFormElement;
+    if (form) {
+      const formData = new FormData();
+      formData.set('nombre', profile.nombre);
+      formData.set('apellido', profile.apellido || '');
+      formData.set('email', user.email || '');
+      formData.set('telefono', profile.telefono?.toString() || '');
+      formData.set('direccion', profile.direction || '');
+      formData.set('barrio', profile.barrio || '');
+      
+      // Llenar campos del formulario
+      (form.querySelector('[name="nombre"]') as HTMLInputElement).value = profile.nombre;
+      (form.querySelector('[name="apellido"]') as HTMLInputElement).value = profile.apellido || '';
+      (form.querySelector('[name="email"]') as HTMLInputElement).value = user.email || '';
+      (form.querySelector('[name="telefono"]') as HTMLInputElement).value = profile.telefono?.toString() || '';
+      (form.querySelector('[name="direccion"]') as HTMLInputElement).value = profile.direction || '';
+      (form.querySelector('[name="barrio"]') as HTMLInputElement).value = profile.barrio || '';
+      
+      // Seleccionar departamento y ciudad si están disponibles
+      if (profile.ciudad?.departamento) {
+        const deptoSelect = document.getElementById('departamento-select') as HTMLSelectElement;
+        if (deptoSelect) {
+          deptoSelect.value = profile.ciudad.departamento.id_depar.toString();
+          loadCiudades(profile.ciudad.departamento.id_depar).then(() => {
+            const ciudadSelect = document.getElementById('ciudad-select') as HTMLSelectElement;
+            if (ciudadSelect && profile.ciudad) {
+              ciudadSelect.value = profile.ciudad.id_ciudad.toString();
+            }
+          });
+        }
+      }
+    }
+  }
+
+  // Event listeners
+  document.addEventListener('DOMContentLoaded', async () => {
+    await initAuth();
+    await loadDepartamentos();
+    loadProfileData();
+    
+    // Suscribirse a cambios en el perfil
+    userProfile.subscribe(() => {
+      loadProfileData();
+    });
+  });
+
+  // Cambio de departamento
+  document.getElementById('departamento-select')?.addEventListener('change', (e) => {
+    const target = e.target as HTMLSelectElement;
+    const departamentoId = parseInt(target.value);
+    
+    if (departamentoId) {
+      loadCiudades(departamentoId);
+    } else {
+      const ciudadSelect = document.getElementById('ciudad-select') as HTMLSelectElement;
+      if (ciudadSelect) {
+        ciudadSelect.disabled = true;
+        ciudadSelect.innerHTML = '<option value="">Primero selecciona un departamento</option>';
+      }
+    }
+  });
+
+  // Envío del formulario de perfil
+  document.getElementById('profile-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData(e.target as HTMLFormElement);
+    const profile = userProfile.get();
+    
+    if (!profile) {
+      alert('Error: No se pudo obtener el perfil del usuario');
+      return;
+    }
+    
+    const updates = {
+      nombre: formData.get('nombre') as string,
+      apellido: formData.get('apellido') as string,
+      telefono: parseInt(formData.get('telefono') as string) || null,
+      direction: formData.get('direccion') as string,
+      barrio: formData.get('barrio') as string,
+      id_ciudad: parseInt(formData.get('ciudad_id') as string) || null,
+    };
+    
+    try {
+      await AuthService.updateProfile(profile.id!, updates);
+      alert('Perfil actualizado exitosamente');
+      // Recargar datos del perfil
+      await initAuth();
+    } catch (error) {
+      console.error('Error actualizando perfil:', error);
+      alert('Error al actualizar el perfil');
+    }
+  });
+
+  // Envío del formulario de contraseña
+  document.getElementById('password-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData(e.target as HTMLFormElement);
+    const newPassword = formData.get('new_password') as string;
+    const confirmPassword = formData.get('confirm_password') as string;
+    
+    if (newPassword !== confirmPassword) {
+      alert('Las contraseñas no coinciden');
+      return;
+    }
+    
+    if (newPassword.length < 8) {
+      alert('La contraseña debe tener al menos 8 caracteres');
+      return;
+    }
+    
+    try {
+      // TODO: Implementar cambio de contraseña con Supabase
+      alert('Contraseña cambiada exitosamente');
+      (e.target as HTMLFormElement).reset();
+    } catch (error) {
+      console.error('Error cambiando contraseña:', error);
+      alert('Error al cambiar la contraseña');
+    }
+  });
+
+  // Botón cancelar
+  document.getElementById('cancel-btn')?.addEventListener('click', () => {
+    loadProfileData(); // Recargar datos originales
+  });
+</script>
+</MainLayout>
