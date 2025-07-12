@@ -1,6 +1,7 @@
 import { atom } from 'nanostores';
 import { AuthService, type UserProfile } from '../services/auth.service';
 import type { User } from '@supabase/supabase-js';
+import { supabase } from '../lib/supabase';
 
 export const isAuthenticated = atom<boolean>(false);
 export const currentUser = atom<User | null>(null);
@@ -32,22 +33,49 @@ export async function initAuth() {
   }
 }
 
+// Escuchar cambios de autenticación
+supabase.auth.onAuthStateChange(async (event, session) => {
+  if (event === 'SIGNED_IN' && session?.user) {
+    const profile = await AuthService.getUserProfile(session.user.id);
+    if (profile) {
+      isAuthenticated.set(true);
+      currentUser.set(session.user);
+      userProfile.set(profile);
+    }
+  } else if (event === 'SIGNED_OUT') {
+    isAuthenticated.set(false);
+    currentUser.set(null);
+    userProfile.set(null);
+  }
+});
+
 // Login
 export async function login(email: string, password: string) {
   try {
+    console.log('Store login function called with:', email);
     const { user, profile } = await AuthService.signIn(email, password);
+    console.log('AuthService returned:', { user: !!user, profile: !!profile });
     
     if (user && profile) {
       isAuthenticated.set(true);
       currentUser.set(user);
       userProfile.set(profile);
+      console.log('Auth state updated successfully');
       return { success: true, user, profile };
+    } else if (user && !profile) {
+      // Usuario autenticado pero sin perfil en la tabla users
+      isAuthenticated.set(true);
+      currentUser.set(user);
+      userProfile.set(null);
+      console.log('User authenticated but no profile found');
+      return { success: true, user, profile: null };
     }
     
+    console.log('Login failed: no user returned');
     return { success: false, error: 'Credenciales inválidas' };
   } catch (error: any) {
     console.error('Error en login:', error);
-    return { success: false, error: error.message || 'Error en el login' };
+    return { success: false, error: error.message || error.error_description || 'Error en el login' };
   }
 }
 
